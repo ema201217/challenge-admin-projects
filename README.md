@@ -24,6 +24,7 @@ El objetivo es realizar la construcción de endpoint clase Projects que represen
 * Realizar un DELETE para eliminar un proyecto.
 * Debe permitir realizar una búsqueda por nombre de proyecto.
 * Asignar multiples usuarios a un proyecto.
+* Se debe utilizar swagger para documentar los endpoints.
 
 ## Definiciones técnicas
 * El Back-end debe estar realizado en Laravel.
