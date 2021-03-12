@@ -1,5 +1,5 @@
 ![Estoes](assets/images/logo.png "Esto es Agencia Digital")
-# Fullstack challenge
+# Backend challenge
 * Se debe crear un servicio que maneje los datos de la plataforma de gestión de proyectos.
 * Si bien no hay restricción de tiempo, creemos que de 3 a 5 horas es un tiempo razonable para entregarlo con calidad.
 
