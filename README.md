@@ -27,7 +27,7 @@ El objetivo es realizar la construcción de endpoint clase Projects que represen
 * Se debe utilizar swagger para documentar los endpoints.
 
 ## Definiciones técnicas
-* El servicio debe estar realizado en Laravel.
+* El servicio debe estar realizado en Laravel, Node Express o el framework de JS que te sea más comodo utilizar.
 * La aplicación debe estar publicada y debe ser accesible mediante un link(Ver Netfly, Heroku) o cualquier webserver.
 * El código de la aplicación debe estar subida a un repositorio de público acceso.
 
