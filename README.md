@@ -1,8 +1,8 @@
-## El proyecto/challenge consiste en la administración de proyectos y la asignación de usuarios a los mismos, dada por la empresa.
+## El proyecto/challenge consiste en la administración de proyectos y la asignación de usuarios a los mismos.
 
-### <img src="exercise/assets/images/logo.gif" alt="logo gif" width="400">
+<img src="exercise/assets/images/logo.gif" alt="logo gif" width="400">
 
-### Pasos y comandos para su ejecución exitosa:
+### Pasos y comandos para una ejecución local exitosa:
 - [descargar](https://nodejs.org/es/download/) e instalar Node JS 
 
 - [descargar](https://www.wampserver.com/en/), instalar y ejecutar WampServer
@@ -22,3 +22,4 @@
     - Swagger jsdoc y Swagger ui ( montaje local del servicio visual de Swagger
 
 ### [Deploy Server](https://esto-es.herokuapp.com/api/docs/)
+### [Guiá visual](https://www.figma.com/file/YLDHikbDgfsZbVdEbO0H6U/Full-Stack-Test-1?node-id=1%3A1701)
