@@ -1,27 +1,32 @@
 const express = require("express");
 const app = express();
 const logger = require("morgan");
+const fileUpload = require('express-fileupload');
+require('dotenv').config(); 
 
 const port = process.env.PORT || 3000;
 
 // Documentation Swagger Interface
 const { serve, setup } = require("swagger-ui-express");
 const { configSwagger } = require("./src/documentation/config.swagger");
-const swaggerJSDocs = require("swagger-jsdoc")(configSwagger); // eslint-disable-line
+const swaggerJSDocs = require("swagger-jsdoc")(configSwagger); 
 
 // routers
-/* const testimonialsRouter = require("./src/routes/testimony.routes");
-const commentsRouter = require("./src/routes/comments.routes"); */
+const authRouter = require("./src/routes/auth.routes");
+const usersRouter = require("./src/routes/users.routes");
+const projectsRouter = require("./src/routes/projects.routes");
 
 // middlewares
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(fileUpload());
 
 // routes
 app.use("/api/docs", serve, setup(swaggerJSDocs));
-/* app.use("/testimonials", testimonialsRouter);
-app.use("/comments", commentsRouter); */
+app.use("/auth", authRouter);
+app.use("/users", usersRouter);
+app.use("/projects", projectsRouter);
 app.use("/*", (req, res) => {
   res.status(404).json({ error: "Page not found" });
 });
