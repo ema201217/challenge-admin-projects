@@ -1,7 +1,7 @@
 ## El proyecto/challenge consiste en la administración de proyectos y la asignación de usuarios a los mismos.
 ## [Consigna del challenge](./exercise/README.md)
 
-<img src="exercise/assets/images/logo.gif" alt="logo gif" width="400">Slack | general | Alkemy Labs - Alkymers | 1 nuevo elemento
+<img src="exercise/assets/images/logo.gif" alt="logo gif" width="400">
 
 ### Pasos y comandos para una ejecución local exitosa:
 - [descargar](https://nodejs.org/es/download/) e instalar Node JS 
