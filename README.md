@@ -2,14 +2,16 @@
 
 ![img](exercise/assets/images/logo.png)
 
+### <img src="exercise/assets/images/logo.png" alt="logo gif" width="400">
+
 ### Pasos y comandos para su ejecución exitosa:
-    - [descargar](https://nodejs.org/es/download/) e instalar Node JS 
+- [descargar](https://nodejs.org/es/download/) e instalar Node JS 
 
-    - [descargar](https://www.wampserver.com/en/), instalar y ejecutar WampServer
+- [descargar](https://www.wampserver.com/en/), instalar y ejecutar WampServer
 
-    - comandos:
-        - npm install
-        - npm run dev
+- comandos:
+    - npm install
+    - npm run dev
 
 ### Tecnologías utilizadas:
     - Amazon S3 ( almacenamiento de archivos )
@@ -21,4 +23,4 @@
     - Sequelize ( ORM para base de dato relacional )
     - Swagger jsdoc y Swagger ui ( montage local del servicio visual de Swagger
 
-### (Deploy Server)[esto-es.herokuapp.com/api/docs/]
+### [Deploy Server](esto-es.herokuapp.com/api/docs/)
