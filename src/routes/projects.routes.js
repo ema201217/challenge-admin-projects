@@ -16,20 +16,24 @@ const {
 } = require("../middlewares");
 
 router
-  .get("/", /* verifyToken, checkAdminRole */ list)
-  .get("/:id", /* verifyToken, checkAdminRole */ detail)
+  .get("/", verifyToken, checkAdminRole, list)
+  .get("/:id", verifyToken, checkAdminRole, detail)
   .post(
     "/",
-    /* verifyToken, checkAdminRole */ validationCreateProject,
+    verifyToken,
+    checkAdminRole,
+    validationCreateProject,
     validateErrors,
     store
   )
 
-  .delete("/:id", /* verifyToken, checkAdminRole */ remove)
+  .delete("/:id", verifyToken, checkAdminRole, remove)
 
   .patch(
     "/:id",
-    /* verifyToken, checkAdminRole */ validationUpdateProject,
+    verifyToken,
+    checkAdminRole,
+    validationUpdateProject,
     validateErrors,
     update
   );

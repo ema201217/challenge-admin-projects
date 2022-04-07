@@ -10,17 +10,17 @@ const {
 } = require("../middlewares");
 
 router
-  .get("/", /* verifyToken, checkAdminRole, */ list)
+  .get("/", verifyToken, checkAdminRole, list)
 
   .patch(
     "/:id",
-  /*   verifyToken,
-    checkAdminRole, */
+    verifyToken,
+    checkAdminRole,
     validationUpdateUser,
     validateErrors,
     update
   )
 
-  .delete("/:id", /* verifyToken, checkAdminRole, */ remove);
+  .delete("/:id", verifyToken, checkAdminRole, remove);
 
 module.exports = router;
