@@ -29,6 +29,8 @@
 ### [Guiá visual](https://www.figma.com/file/YLDHikbDgfsZbVdEbO0H6U/Full-Stack-Test-1?node-id=1%3A1701)
 
 
+
 -----------------------
-Codigo:
+Algo del codigo:
+-----------------------
 ![imgGif](exercise/assets/images/1.gif)
