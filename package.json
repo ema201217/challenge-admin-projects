@@ -8,10 +8,7 @@
     "dev": "npm run db:prepare:production && nodemon index.js",
     "db:prepare:production": "npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://ema201217@bitbucket.org/estoes-challenges/backend.git"
-  },
+  
   "author": "",
   "license": "ISC",
   "bugs": {
