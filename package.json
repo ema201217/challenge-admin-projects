@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "npm run db:prepare:production && node index.js",
-    "dev": "nodemon index.js",
+    "dev": "npm run db:prepare:production && nodemon index.js",
     "db:prepare:production": "npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all"
   },
   "repository": {

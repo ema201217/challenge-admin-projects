@@ -1,37 +1,24 @@
-![Estoes](assets/images/logo.png "Esto es Agencia Digital")
-# Backend challenge
-* Se debe crear un servicio que maneje los datos de la plataforma de gestión de proyectos.
-* Si bien no hay restricción de tiempo, creemos que de 3 a 5 horas es un tiempo razonable para entregarlo con calidad.
+## El proyecto/challenge consiste en la administración de proyectos y la asignación de usuarios a los mismos, dada por la empresa.
 
-## Diseño
-Podés encontrar el diseño [acá](https://www.figma.com/file/YLDHikbDgfsZbVdEbO0H6U/Full-Stack-Test-1?node-id=1%3A1701). La referencia sirve para tener una idea clara del servicio a desarrollar.
+![img](exercise/assets/images/logo.png)
 
-## Definición funcional
-El usuario accede a un administrador de proyectos para realizar la gestión, puede crearlos, editarlos y eliminarlos.
+### Pasos y comandos para su ejecución exitosa:
+    - [descargar](https://nodejs.org/es/download/) e instalar Node JS 
 
-* El usuario puede crear proyectos y editarlos.
-* El usuario puede eliminar proyectos.
-* El usuario puede asignar proyectos a usuarios.
-* El usuario puede buscar un proyecto.
+    - [descargar](https://www.wampserver.com/en/), instalar y ejecutar WampServer
 
-## API REST
-El objetivo es realizar la construcción de endpoint clase Projects que represente la información del proyecto como muestra el diseño.
+    - comandos:
+        - npm install
+        - npm run dev
 
-* Realizar el schema de base de datos de proyectos(MySQL).
-* El endpoint debe traer un listado de proyectos con paginado.
-* Traer un solo proyecto /id.
-* Realizar un POST para insertar o editar un proyecto.
-* Realizar un DELETE para eliminar un proyecto.
-* Debe permitir realizar una búsqueda por nombre de proyecto.
-* Asignar multiples usuarios a un proyecto.
-* Se debe utilizar swagger para documentar los endpoints.
+### Tecnologías utilizadas:
+    - Amazon S3 ( almacenamiento de archivos )
+    - Bcryptjs ( hash de contraseñas )
+    - Express
+    - Express File Upload ( obtenemos el archivo desde el servidor )
+    - Express Validator ( manejo de validaciones )
+    - Json Web Token ( implementación de un token bearer para evitar consultas innecesarias a la base de datos )
+    - Sequelize ( ORM para base de dato relacional )
+    - Swagger jsdoc y Swagger ui ( montage local del servicio visual de Swagger
 
-## Definiciones técnicas
-* El servicio debe estar realizado en Laravel, Node Express o el framework de JS que te sea más comodo utilizar.
-* La aplicación debe estar publicada y debe ser accesible mediante un link(Ver Netfly, Heroku) o cualquier webserver.
-* El código de la aplicación debe estar subida a un repositorio de público acceso.
-
-## Consideraciones
-* Es importante que existan las validaciones de datos, ejemplo si se solicita un proyecto que no existe.
-
-## Muchas gracias por tu tiempo!
+### (Deploy Server)[esto-es.herokuapp.com/api/docs/]
