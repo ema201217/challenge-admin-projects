@@ -2,13 +2,25 @@ const router = require("express").Router();
 
 const { list, update, remove } = require("../controllers/user.controller");
 
-const { verifyToken } = require("../middlewares");
+const {
+  verifyToken,
+  validationUpdateUser,
+  validateErrors,
+  checkAdminRole,
+} = require("../middlewares");
 
 router
-  .get("/", verifyToken, list)
+  .get("/", /* verifyToken, checkAdminRole, */ list)
 
-  .patch("/:id", verifyToken, update)
+  .patch(
+    "/:id",
+  /*   verifyToken,
+    checkAdminRole, */
+    validationUpdateUser,
+    validateErrors,
+    update
+  )
 
-  .delete("/:id", verifyToken, remove);
+  .delete("/:id", /* verifyToken, checkAdminRole, */ remove);
 
 module.exports = router;

@@ -1,5 +1,5 @@
 "use strict";
-const { STATUS_ENABLED } = require("../constants/constants");
+const { STATUS_ENABLED } = require("../../constants/constants");
 
 const configProject = [
   {

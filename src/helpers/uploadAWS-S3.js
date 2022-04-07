@@ -22,7 +22,7 @@ const uploadInBucket = async (file) => {
       Body: file.data, // The Body receives the binary information from the file
     }).promise(); // return as promise
   } catch (error) {
-    console.log(error);
+    return error.message;
   }
 };
 

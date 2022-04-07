@@ -7,8 +7,6 @@ const STATUS_DISABLED = 2;
 const ROLE_PROJECT_MANAGER = 1;
 const ROLE_DEVELOPER = 2;
 
-const LIMIT_PAGE = 10;
-
 module.exports = {
   ROLE_ADMIN,
   ROLE_USER,
@@ -16,5 +14,4 @@ module.exports = {
   STATUS_DISABLED,
   ROLE_PROJECT_MANAGER,
   ROLE_DEVELOPER,
-  LIMIT_PAGE
 };

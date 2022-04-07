@@ -1,5 +1,5 @@
 const bcrypt = require("bcryptjs");
-const db = require("../models");
+const db = require("../db/models");
 const { createJWT } = require("../helpers");
 
 const register = async (req, res) => {
@@ -10,9 +10,10 @@ const register = async (req, res) => {
       email,
       password: passwordHash,
       username,
-      avatar: "https://www.seekpng.com/png/full/428-4287240_no-avatar-user-circle-icon-png.png",
-      roleId,
-      roleProject,
+      avatar:
+        "https://www.seekpng.com/png/full/428-4287240_no-avatar-user-circle-icon-png.png",
+      roleId: +roleId,
+      roleProject: +roleProject,
     });
 
     // Create JWT
@@ -25,13 +26,15 @@ const register = async (req, res) => {
     const { password, ...rest } = newUser.dataValues;
 
     res.status(201).json({
-      message: "User created successfully",
+      ok: true,
+      msg: "User created successfully",
       user: rest,
       token,
     });
   } catch (error) {
     res.status(500).json({
-      message: error.message,
+      ok: false,
+      msg: error.message,
     });
   }
 };
@@ -40,14 +43,18 @@ const login = async (req, res) => {
   try {
     const { email, password, username } = req.body;
 
-    const where = email ? { where: { email } } : { where: { username } };
+    const where = email
+      ? { where: { email } }
+      : username
+      ? { where: { username } }
+      : { where: "" };
 
     const user = await db.User.findOne(where);
 
     if (!user) {
       return res.status(404).json({
         ok: false,
-        msg: `The ${email} not exist`,
+        msg: `The ${email || username} not exist`,
       });
     }
 
@@ -64,13 +71,13 @@ const login = async (req, res) => {
     const { roleId, id } = user;
     const token = await createJWT({ roleId, email, id });
 
-    return res.status(200).json({
+    res.status(200).json({
       ok: true,
       msg: "User logged in",
       token,
     });
   } catch (err) {
-    return res.status(500).json({
+    res.status(500).json({
       ok: false,
       msg: err.message,
     });
@@ -80,14 +87,17 @@ const login = async (req, res) => {
 const getUserAuthenticated = async (req, res) => {
   try {
     const { id } = req.user.user;
-    const user = await db.User.findOne({
-      where: { id },
-      attributes: { exclude: ["password"] },
+    const user = await db.User.findByPk(id, {
+      attributes: {
+        exclude: ["password", "deletedAt", "roleId", "roleProject"],
+      },
+      include: ["projects", "role", "mission"],
     });
-    res.status(200).json({ user: user.dataValues });
+    res.status(200).json({ ok: true, user });
   } catch (error) {
     res.status(500).json({
-      message: error.message,
+      ok: false,
+      msg: error.message,
     });
   }
 };

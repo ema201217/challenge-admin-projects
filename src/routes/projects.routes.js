@@ -4,17 +4,34 @@ const {
   store,
   remove,
   update,
+  detail,
 } = require("../controllers/project.controller");
 
-const { verifyToken } = require("../middlewares");
+const {
+  verifyToken,
+  checkAdminRole,
+  validationCreateProject,
+  validateErrors,
+  validationUpdateProject,
+} = require("../middlewares");
 
 router
-  .get("/", verifyToken, list)
+  .get("/", /* verifyToken, checkAdminRole */ list)
+  .get("/:id", /* verifyToken, checkAdminRole */ detail)
+  .post(
+    "/",
+    /* verifyToken, checkAdminRole */ validationCreateProject,
+    validateErrors,
+    store
+  )
 
-  .post("/", verifyToken, store)
+  .delete("/:id", /* verifyToken, checkAdminRole */ remove)
 
-  .delete("/:id", verifyToken, remove)
-
-  .put("/:id", verifyToken, update);
+  .patch(
+    "/:id",
+    /* verifyToken, checkAdminRole */ validationUpdateProject,
+    validateErrors,
+    update
+  );
 
 module.exports = router;

@@ -1,5 +1,5 @@
 "use strict";
-const { ROLE_ADMIN, ROLE_USER, ROLE_DEVELOPER, ROLE_PROJECT_MANAGER } = require("../constants/constants");
+const { ROLE_ADMIN, ROLE_USER, ROLE_DEVELOPER, ROLE_PROJECT_MANAGER } = require("../../constants/constants");
 const bcrypt = require("bcryptjs");
 
 const configUsers = [
@@ -12,7 +12,7 @@ const configUsers = [
   {
     roleId: ROLE_USER,
     type: "user",
-    quantity: 10,
+    quantity: 30,
     roleProject:ROLE_DEVELOPER
   },
 ];

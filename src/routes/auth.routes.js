@@ -5,13 +5,26 @@ const {
   login,
   getUserAuthenticated,
 } = require("../controllers/auth.controller");
-const { verifyToken } = require("../middlewares");
+const {
+  verifyToken,
+  validateErrors,
+  validationCreateUser,
+  validationLoginUser,
+} = require("../middlewares");
 
 router
   .get("/me", verifyToken, getUserAuthenticated)
 
-  .post("/register", register)
+  .post(
+    "/register",
+    validationCreateUser,
+    validateErrors,
+    register
+  )
 
-  .post("/login", login);
+  .post("/login",
+    validationLoginUser,
+    validateErrors,
+    login);
 
 module.exports = router;

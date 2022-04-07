@@ -1,0 +1,318 @@
+paths:
+  /projects:
+    # GET
+    get:
+      security:
+      - bearerAuth: []  
+      tags:
+        - Projects
+      summary: "will return a list of existing projects"
+      description: "service to retrieve all projects"
+      parameters:
+        - in: query
+          name: page
+          description: "the page number"
+          schema:
+            type: integer
+            example: 1
+        - in: query
+          name: count
+          description: "the count number"
+          schema:
+            type: integer
+            example: 10
+      responses:
+        200:
+          $ref: "#/components/responses/getAllProjects"
+
+        403:
+          $ref: "#/components/responses/unauthorizedError"
+
+        500:
+          $ref: "#/components/responses/serverError"
+    # POST
+    post:
+      security:
+      - bearerAuth: []  
+      tags:
+        - Projects
+      summary: "will add a new project to DB"
+      description: "add a new project to DB"
+      requestBody:
+        description: "request with values"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/projectPost"
+      responses:
+        201:
+          $ref: "#/components/responses/projectCreatedSuccessfully"
+
+        422:
+          $ref: "#/components/responses/projectCreatedValidationError"
+
+        500:
+          $ref: "#/components/responses/serverError"
+
+  /projects/{id}:
+    # PATCH
+    patch:
+      security:
+      - bearerAuth: []  
+      tags:
+        - Projects
+      summary: "update an existing project by providing the correct id"
+      description: "this endpoint is in charge of making an update of the selected project"
+      parameters:
+        - in: path
+          name: id
+          description: "the id of the project that needs to be updated"
+          required: true
+          schema:
+            type: integer
+            example: 5
+      requestBody:
+        description: "project update"
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/projectUpdate"
+      responses:
+        200:
+          $ref: "#/components/responses/projectUpdatedSuccessfully"
+        404:
+          $ref: "#/components/responses/projectNotFound"
+        500:
+          $ref: "#/components/responses/serverError"
+
+    # DELETE
+    delete:
+      security:
+      - bearerAuth: []  
+      tags:
+        - Projects
+      summary: "Delete project"
+      description: "This endpoint will delete the project that corresponds with the chooser id"
+      parameters:
+        - in: path
+          name: id
+          description: "the id of the project you want to delete"
+          required: true
+          schema:
+            type: integer
+            example: 6
+      responses:
+        200:
+          $ref: "#/components/responses/projectDeletedSuccessfully"
+        404:
+          $ref: "#/components/responses/projectNotFound"
+        500:
+          $ref: "#/components/responses/serverError"
+    # GET
+    get:
+      security:
+      - bearerAuth: []  
+      tags:
+        - Projects
+      summary: "Project detail"
+      description: "This endpoint is for the project detail"
+      parameters:
+        - in: path
+          name: id
+          description: "project ID"
+          required: true
+          schema:
+            type: integer
+            example: 6
+      responses:
+        200:
+          $ref: "#/components/responses/projectDetailSuccessfully"
+        404:
+          $ref: "#/components/responses/projectNotFound"
+        500:
+          $ref: "#/components/responses/serverError"
+
+  # COMPONENTS
+components:
+  # SCHEMAS
+  schemas:
+    projectPost:
+      properties:
+        name:
+          description: "name of the project"
+          type: string
+          example: "project number 1"
+        description:
+          description: "description of the project"
+          type: string
+          example: "description project number 1"
+        status:
+          description: "status of the project | 1 = enabled - 2 = disabled"
+          type: integer
+          example: 1
+    
+    projectUpdate:
+      properties:
+        name:
+          description: "name of the project"
+          type: string
+          example: "project number ONE"
+        description:
+          description: "description of the project"
+          type: string
+          example: "description project number ONE"
+        status:
+          description: "status of the project | 1 = enabled - 2 = disabled"
+          type: integer
+          example: 2
+    
+    projectFormdata:
+      type: object
+      properties:
+        name:
+          description: "name of the project"
+          type: string
+          example: "project number 1"
+        description:
+          description: "description of the project"
+          type: string
+          example: "description project number 1"
+        status:
+          description: "status of the project | 1 = enabled - 2 = disabled"
+          type: integer
+          example: 1
+
+  # Responses
+  responses:
+    # ( Project - responses )
+    projectCreatedSuccessfully:
+      description: "project created successfully"
+      content:
+        application/json:
+          schema:
+            properties:
+              ok:
+                type: boolean
+                
+              msg:
+                type: string
+                example: Created 'nameProject' project
+
+    projectCreatedValidationError:
+      description: "Validation errors"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              ok: 
+                type: boolean
+                example: false
+              errors:
+                type: array
+                example: []
+                items:
+                  properties:
+                    msg:
+                      type: string
+                    param:
+                      type: string
+    
+    serverError:
+      description: "Server error"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              ok:
+                type: boolean 
+                example: false
+              msg:
+                type: string
+
+    projectUpdatedSuccessfully:
+      description: "updated successfully"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              ok:
+                type: boolean
+              msg:
+                type: string
+                example: project updated successfully
+
+    projectNotFound:
+      description: "Member not found"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              ok:
+                type: boolean
+                example: false
+              msg:
+                type: string
+                example: "project not found"
+
+    getAllProjects:
+      description: "it shows a list with all the projects"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              ok:
+                type: boolean
+              prev:
+                type: string
+              next:
+                type: string
+              results:
+                type: array
+                example: []
+
+    unauthorizedError:
+      description: Access token is missing or invalid
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              ok:
+                type: boolean
+                example: false
+              msg:
+                type: string
+                example: A token is required for authentication     
+
+    projectDeletedSuccessfully:
+      description: "deleted successfully"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              ok:
+                type: boolean
+              msg:
+                type: string
+                example: "project with id '6' was deleted successfully"
+
+    projectDetailSuccessfully:                
+      description: "project detail successfully"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              ok:
+                type: boolean
+              data:
+                type: object

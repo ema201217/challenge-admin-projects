@@ -1,21 +1,21 @@
-const { LIMIT_PAGE } = require("../constants/constants");
 const { paginated } = require("../helpers");
-const db = require("../models");
+const db = require("../db/models");
 
-const list = async (req, res) => {
+const list = async (req, res) => { 
   try {
-    const { page = 1 } = req.query;
-    const { results, next, prev } = await paginated(
+    const { page = 1, count = 10 } = req.query;
+    let { results, next, prev } = await paginated(
       db.Project,
-      LIMIT_PAGE,
+      +count,
       +page,
-      req
+      req,
+      ["users"]
     );
 
     if (!results.length) {
       return res.status(200).json({
         ok: false,
-        msg: "There are not projects created",
+        msg: "there are not projects in the page",
       });
     }
     res.status(200).json({ ok: true, prev, next, results });
@@ -26,6 +26,29 @@ const list = async (req, res) => {
     });
   }
 };
+
+const detail = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const project = await db.Project.findByPk(id, {
+      attributes: { exclude: ["deletedAt"] },
+      include: ["users"],
+    });
+    if (!project) {
+      return res.status(404).json({
+        ok: false,
+        msg: "project not found",
+      });
+    }
+    res.status(200).json({ ok: true, data: project });
+  } catch (error) {
+    return res.status(500).json({
+      ok: false,
+      msg: error,
+    });
+  }
+};
+
 const remove = async (req, res) => {
   try {
     const { id } = req.params;
@@ -34,7 +57,7 @@ const remove = async (req, res) => {
         id,
       },
     });
-    if (isDeleted) {
+    if (!isDeleted) {
       return res.status(404).json({
         ok: false,
         msg: `the id ${id} does not correspond to any project`,
@@ -66,10 +89,10 @@ const store = async (req, res) => {
       ok: true,
       msg: `Created ${newProject.name} project`,
     });
-  } catch (err) {
+  } catch (error) {
     res.status(500).json({
       ok: false,
-      msg: err.message,
+      msg: error.message,
     });
   }
 };
@@ -82,6 +105,7 @@ const update = async (req, res) => {
 
     if (!project) {
       return res.status(404).json({
+        ok: false,
         msg: "project not found",
       });
     }
@@ -109,4 +133,5 @@ module.exports = {
   remove,
   store,
   update,
+  detail,
 };

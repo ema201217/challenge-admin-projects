@@ -1,0 +1,462 @@
+paths:
+  # POST
+  /auth/register:
+    post:
+      description: Request to create a resource in the user database
+      tags:
+        - Authentication
+      requestBody:
+        description: User register
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/userFormdata"
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Register"
+      responses:
+        200:
+          $ref: "#/components/responses/registerValidationEmail"
+
+        201:
+          $ref: "#/components/responses/registerSuccessfully"
+
+        422:
+          $ref: "#/components/responses/registerValidationsErrors"
+
+        500:
+          $ref: "#/components/responses/registerServerError"
+
+  # POST
+  /auth/login:
+    post:
+      description: Request to obtain user authentication
+      tags:
+        - Authentication
+      requestBody:
+        description: User login
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Login"
+
+      responses:
+        200:
+          $ref: "#/components/responses/loginSuccessfully"
+
+        400:
+          $ref: "#/components/responses/loginPasswordError"
+
+        404:
+          $ref: "#/components/responses/loginUserNotFound"
+
+        500:
+          $ref: "#/components/responses/loginServerError"
+
+ # PATCH
+  /users/{id}:
+    patch:
+      security:
+      - bearerAuth: [] 
+      tags:
+        - Authentication
+      parameters:
+        - $ref: "#/components/parameters/userIdPatch"
+
+      requestBody:
+        description: User updated
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/userUpdated"
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/userFormdata"
+              
+
+      responses:
+        200:
+          $ref: "#/components/responses/patchUpdateSuccessfully"
+
+        404:
+          $ref: "#/components/responses/patchUserNotFound"
+
+        500:
+          $ref: "#/components/responses/patchServerError"
+
+  # DELETE
+    delete:
+      security:
+      - bearerAuth: [] 
+      tags:
+        - Authentication
+      description: User deletion
+      parameters:
+        - $ref: "#/components/parameters/userIdDelete"
+
+      responses:
+        200:
+          $ref: "#/components/responses/deletionSuccessfully"
+
+        404:
+          $ref: "#/components/responses/deleteUserNotFound"
+
+        500:
+          $ref: "#/components/responses/deleteServerError"
+ 
+  # COMPONENTS
+components:
+  # Schemas request body
+  schemas:
+    Register:
+      properties:
+        username:
+          type: string
+          description: Enter username
+          example: user-test@test.com
+        roleProject:
+          description: Enter role project
+          type: string
+          example: 2
+        email:
+          type: string
+          description: Enter email
+          example: user-register@test.com
+        password:
+          description: Enter password
+          type: string
+          example: 12345678Password$
+          format: password
+
+    Login:
+      properties:
+        email:
+          type: string
+          description: Enter email
+          example: admin1@test.com
+          format: email
+        username:
+          type: string
+          description: Enter username
+          example: admin-1
+        password:
+          description: Enter password
+          type: string
+          example: "admin1"
+          format: password
+
+    userUpdated:
+      properties:
+        username:
+          type: string
+          example: user
+        roleProject:
+          type: integer
+          example: 5
+        email:
+          type: string
+          example: email-test
+        password:
+          type: string
+          format: password
+          example: 12345678Passw
+
+    userFormdata:
+      type: object
+      properties:
+        username:
+          type: string
+          example: username-test
+        email:
+          type: string
+          example: email-test@test.com
+        password:
+          type: string
+          format: password
+          example: Password123456$
+        avatar:
+          type: string
+          format: base64
+        roleProject:
+          type: integer
+          example: 2
+
+  securitySchemes:
+    bearerAuth:   
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+    # Verb DELETE ( User deleted - parameters )
+    userIdDelete:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+        example: 6
+
+    # Verb PATCH ( User updated - parameters )
+    userIdPatch:
+      in: path
+      name: id
+      description: User id
+      required: true
+      schema:
+        type: integer
+        example: 5
+
+  responses:
+    # Verb POST ( Register - responses )
+    registerValidationEmail:
+      description: Email verification in database
+      content:
+        application/json:
+          schema:
+            type: object
+            example: { ok: false, msg: "This email has already been registered" }
+            properties:
+              ok:
+                type: boolean
+                example: false
+              msg:
+                type: string
+
+    registerSuccessfully:
+      description: Successful registration
+
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              ok: 
+                type: boolean
+              msg:
+                type: string
+                example: User created successfully
+              user:
+                type: object
+              token: 
+                type: string
+                format: base64
+                example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InJvbGVJZCI6MiwiZW1haWwiOiJ1c2VyMUB0ZXN0LmNvbSIsImlkIjoyfSwiaWF0IjoxNjQ5MzEzMzkwLCJleHAiOjE2NDkzMjc3OTB9.9yLRcA59W-tDbUIVA-QXX3W0RHKvheTnETUjSor48po
+
+    registerValidationsErrors:
+      description: Validation errors
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              ok: 
+                type: boolean
+                example: false
+              errors:
+                type: array
+                example: []
+                items:
+                  properties:
+                    msg:
+                      type: string
+                    param:
+                      type: string
+                    
+
+    registerServerError:
+      description: Server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              ok:
+                type: boolean
+                example: false
+              msg:
+                type: string
+                example: Server error
+
+    # Verb POST ( Login - responses )
+    loginSuccessfully:
+      description: Successful login
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              ok:
+                type: boolean
+              msg:
+                type: string
+                example: User logged in
+              token:
+                type: string
+                format: base64
+                example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBydWViYTEyMzQ1QGdtYWlsLmNvbSIsImlhdCI6MTY0NTg3MjM3MCwiZXhwIjoxNjQ1ODg2NzcwfQ.A73ENdrNz0uJlIZI6SW5D6uvB1Za5YKfo_XQrBdNPCA
+
+    loginPasswordError:
+      description: Password is wrong
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              ok:
+                type: boolean
+                example: false
+              msg:
+                type: string
+                example: The password is wrong
+
+    loginUserNotFound:
+      description: User not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              ok:
+                type: boolean
+                example: false
+              msg:
+                type: string
+                example: The user-testing@test.com not exist
+
+    loginServerError:
+      description: Server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              ok:
+                type: boolean 
+                example: false
+              msg:
+                type: string
+
+    # Verb DELETE ( User deleted - responses )
+    deletionSuccessfully:
+      description: Successful deletion
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              ok:
+                type: boolean
+              msg:
+                type: string
+                example: user with id 6 was deleted successfully
+
+    deleteUserNotFound:
+      description: User not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              ok:
+                type: boolean
+                example: false
+              msg:
+                type: string
+                example: the id 999 is no longer available in database
+
+    deleteServerError:
+      description: User not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              ok:
+                type: boolean
+                example: false
+              msg:
+                type: string
+
+    # Verb PATCH ( User updated - responses )
+    patchUpdateSuccessfully:
+      description: Updated successfully
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              ok:
+                type: boolean
+              msg:
+                type: string
+                example: user updated successfully
+              user:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 5
+
+                  email:
+                    type: integer
+                    example: emanuel@gmail.com
+
+                  username:
+                    type: string
+                    example: Alberto
+
+                  avatar:
+                    type: string
+                    example: Arroyo
+
+                  createdAt:
+                    type: string
+                    format: date
+                    example: "2022-02-26T09:10:52.000Z"
+
+                  updatedAt:
+                    type: string
+                    format: date
+                    example: "2022-02-26T14:32:03.070Z"
+
+                  projects:
+                    type: array
+                    example: []
+
+                  role:
+                    type: object
+
+                  mission:
+                    type: object
+
+    patchUserNotFound:
+      description: User not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              ok:
+                type: boolean
+                example: false
+              msg:
+                type: string
+                example: "user not found"
+
+    patchServerError:
+      description: Server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              ok:
+                type: boolean
+                example: false
+              msg:
+                type: string
