@@ -18,6 +18,10 @@ const configSwagger = {
     },
     servers: [
       {
+        url: 'https://esto-es.herokuapp.com',
+        description: 'Server Heroku',
+      },
+      {
         url: 'http://localhost:3000',
         description: 'Server Local',
       },
