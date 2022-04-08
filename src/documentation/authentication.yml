@@ -55,6 +55,18 @@ paths:
         500:
           $ref: "#/components/responses/loginServerError"
 
+  /users:
+    # GET
+    get:
+      security:
+      - bearerAuth: []  
+      tags:
+        - Authentication
+      description: "Service to retrieve all users"
+      responses:
+        200:
+          $ref: "#/components/responses/getAllUsers"
+
  # PATCH
   /users/{id}:
     patch:
@@ -153,13 +165,13 @@ components:
       properties:
         username:
           type: string
-          example: user
+          example: User
         roleProject:
           type: integer
           example: 5
         email:
           type: string
-          example: email-test
+          example: Email-test
         password:
           type: string
           format: password
@@ -170,7 +182,7 @@ components:
       properties:
         username:
           type: string
-          example: username-test
+          example: Username-test
         email:
           type: string
           example: email-test@test.com
@@ -394,7 +406,7 @@ components:
                 type: boolean
               msg:
                 type: string
-                example: user updated successfully
+                example: User updated successfully
               user:
                 type: object
                 properties:
@@ -404,25 +416,20 @@ components:
 
                   email:
                     type: integer
-                    example: emanuel@gmail.com
 
                   username:
                     type: string
-                    example: Alberto
 
                   avatar:
                     type: string
-                    example: Arroyo
 
                   createdAt:
                     type: string
                     format: date
-                    example: "2022-02-26T09:10:52.000Z"
 
                   updatedAt:
                     type: string
                     format: date
-                    example: "2022-02-26T14:32:03.070Z"
 
                   projects:
                     type: array
@@ -446,7 +453,7 @@ components:
                 example: false
               msg:
                 type: string
-                example: "user not found"
+                example: User not found
 
     patchServerError:
       description: Server error
@@ -460,3 +467,19 @@ components:
                 example: false
               msg:
                 type: string
+
+    getAllUsers:
+      description: It shows a list with all the projects
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              ok:
+                type: boolean
+              msg:
+                type: string
+                example: list of users
+              users:
+                type: array
+                example: []
