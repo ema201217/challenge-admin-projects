@@ -11,7 +11,7 @@ const paginated = async (model, limit, page, req, arrAssociation = []) => {
     });
   
     const existPrev = page > 0 && offset < count;
-    const existNext = Math.floor(count / limit) > page;
+    const existNext =   Math.floor(count / limit) > page+2;
   
     const prev = existPrev
       ? `${req.protocol}://${req.get("host")}${req.baseUrl}?page=${page}`
