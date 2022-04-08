@@ -469,7 +469,7 @@ components:
                 type: string
 
     getAllUsers:
-      description: It shows a list with all the projects
+      description: It shows a list with all the users
       content:
         application/json:
           schema:
